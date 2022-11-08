@@ -35,7 +35,9 @@ function validateUser(username, password) {
       request.onsuccess = (event) => {
         if (request.result !== undefined) {
           if (request.result.password === password) {
-            console.log(request.result)
+            console.log(request.result);
+            // tworzenie tokenu do autoryzacji
+            createToken(request.result);
             // funkcja do przekierowania na stronę startową
             redirect(request.result.role);
           } else {
@@ -48,22 +50,7 @@ function validateUser(username, password) {
     };
   }
 
-//function validateUser(username, password) {
-//
-//   var request = new XMLHttpRequest();
-//   request.open("GET", "./fakeapi/users.json", false);
-//   request.overrideMimeType("application/json");
-//   request.send(null);
-//   var usersJson = JSON.parse(request.responseText);
-//   console.log(usersJson);
-
-//   // $.getJSON("./fakeapi/users.json", function(json) {
-//   //     console.log(json);
-//   // })
-//}
-
 // funkcja do tworzenia BD w przeglądarce (indexedDB)
-
 function createDataBase() {
   var db;
   const request = indexedDB.open("Cybersecurity");
@@ -121,3 +108,29 @@ function redirect(role) {
       window.location.href = "./pages/admin_panel.html";
     }
   }
+
+  // Tworzenie tokena autoryzacji
+function createToken(userData) {
+    var token = crypt("wmk", JSON.stringify(userData));
+    // Dodanie tokena do localStorage
+    localStorage.setItem("token", token);
+    return token;
+  }
+
+  // IMITACJA API
+
+  // funkcja szyfrująca
+  // credit to @MetaTron on StackOverflow
+const crypt = (salt, text) => {
+    const textToChars = (text) => text.split("").map((c) => c.charCodeAt(0));
+    const byteHex = (n) => ("0" + Number(n).toString(16)).substr(-2);
+    const applySaltToChar = (code) =>
+      textToChars(salt).reduce((a, b) => a ^ b, code);
+  
+    return text
+      .split("")
+      .map(textToChars)
+      .map(applySaltToChar)
+      .map(byteHex)
+      .join("");
+  };
