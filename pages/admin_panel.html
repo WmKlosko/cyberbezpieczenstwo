@@ -13,18 +13,54 @@
       rel="stylesheet"
       href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
     />
-
   </head>
   <body>
     <main>
-        <button class="btn btn-secondary" onclick="logout()">Wyloguj</button>
-      <div >
+      <button class="btn btn-secondary" onclick="logout()">Wyloguj</button>
+      <div>
         <h1>Panel Administratora</h1>
-        <div >
+        <section>
+          <div class="admin-form form-group">
+            <h2>Wymogi hasła</h2>
+            <form>
+              <label for="length">Długość hasła: </label
+              ><input id="length" class="form-control" type="number" min="1" />
+              <label for="uppercaseLetters">Wielkie litery: </label
+              ><input
+                id="uppercaseLetters"
+                class="form-control"
+                type="number"
+                min="0"
+              />
+              <label for="specialCharacters">Znaki specjalne: </label
+              ><input
+                id="specialCharacters"
+                class="form-control"
+                type="number"
+                min="0"
+              />
 
-        </div>
+              <button
+                class="admin-button btn btn-primary"
+                type="button"
+                onclick="return changePasswordRequirements()"
+              >
+                Zapisz zmiany
+              </button>
+            </form>
+          </div>
+        </section>
+
+        <section>
+          <div class="admin-form form-group">
+            <h2>Użytkownicy</h2>
+            <ul class="admin-list" id="users">
+            </ul>
+          </div>
+        </section>
+
       </div>
     </main>
-    <script src="admin_panel_guardian.js"></script>
+    <script src="admin_panel.js"></script>
   </body>
 </html>

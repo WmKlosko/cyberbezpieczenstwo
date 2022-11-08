@@ -17,3 +17,33 @@ label {
 .login-button {
     margin-top: 15px;
 }
+
+.admin-form {
+    text-align: center;
+    width: 30%;
+    margin: auto;
+    margin-top: 5%;
+}
+
+.admin-button {
+    margin-top: 5%;
+}
+
+.user-form {
+    text-align: center;
+    width: 30%;
+    margin: auto;
+    margin-top: 5%;
+}
+
+.user-button {
+    margin-top: 5%;
+}
+
+.user-form-validation {
+    text-align: left;
+}
+
+.admin-list {
+    text-align: start;
+}

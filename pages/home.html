@@ -13,18 +13,57 @@
       rel="stylesheet"
       href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
     />
-   
   </head>
   <body>
     <main>
       <button class="btn btn-secondary" onclick="logout()">Wyloguj</button>
-      <div>
+      <div class="user-form form-group">
         <h1>Witaj zalogowany użytkowniku</h1>
         <div>
-        
+          <div id="password">
+            <form>
+              <label for="change_password">Zmień hasło: </label
+              ><input
+                id="change_password"
+                class="form-control"
+                type="password"
+              />
+
+              <div class="user-form-validation" id="requirement_length"></div>
+              <div
+                class="user-form-validation"
+                id="requirement_uppercase"
+              ></div>
+              <div class="user-form-validation" id="requirement_special"></div>
+
+              <button
+                class="user-button btn btn-primary"
+                type="button"
+                onclick="return changePassword()"
+              >
+                Zapisz zmiany
+              </button>
+            </form>
+          </div>
+          <div id="content">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi
+            feugiat nibh quis consectetur dapibus. Maecenas ultricies, ante non
+            viverra lacinia, augue nulla finibus lacus, sit amet laoreet est
+            erat quis arcu. Donec consequat purus sed elit tempor consequat.
+            Nullam fermentum elit eget diam feugiat dapibus. Vestibulum pharetra
+            turpis at bibendum lobortis. Nam laoreet justo at risus porta
+            volutpat. Aliquam ut volutpat ligula, eu faucibus tortor. Aenean
+            tempor massa id ornare dictum. Curabitur eget est iaculis, laoreet
+            diam sed, ornare turpis. Maecenas vestibulum sodales ullamcorper. In
+            ut nisl dignissim, mollis leo id, rutrum libero. Phasellus feugiat
+            arcu convallis, molestie mauris nec, mollis velit. Fusce dolor
+            ligula, tincidunt nec mauris et, viverra porta eros. Integer vitae
+            ex pulvinar, egestas libero laoreet, faucibus ante. Lorem ipsum
+            dolor sit amet, consectetur adipiscing elit.
+          </div>
         </div>
       </div>
     </main>
-    <script src="home_guardian.js"></script>
+    <script src="home.js"></script>
   </body>
 </html>
