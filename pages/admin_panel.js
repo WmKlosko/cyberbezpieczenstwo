@@ -40,6 +40,7 @@ function checkPermission() {
   }
 }
 
+// Funkcja wyciągająca wymogi z BD
 function getPasswordRequirements() {
   let db;
   const request = indexedDB.open("Cybersecurity");
@@ -77,6 +78,7 @@ function getPasswordRequirements() {
   };
 }
 
+// Wyciąganie użytkowników z BD do listy
 function getUsers() {
   let db;
   const request = indexedDB.open("Cybersecurity");
@@ -100,8 +102,9 @@ function getUsers() {
 
     request.onsuccess = (event) => {
 
+      //Dynamiczne dodawanie podpunktów do listy w HTMLu
       var userLists = document.getElementById("users");
-
+      
       if(request.result !== undefined && request.request !== null) {
         for (let i = 0; i < request.result.length; i++) {
           userLists.innerHTML += "<li>Uprawnienia : <b>" + request.result[i].role + "</b><br/>Nazwa użytkownika: <b>" + request.result[i].username + "</b><br/>Aktywny: <b>" + (request.result[i].active? "tak": "nie") + "</b></li>";
@@ -112,6 +115,7 @@ function getUsers() {
   };
 }
 
+// Zmiana wymagań dla hasła
 function changePasswordRequirements() {
   const length = document.getElementById("length").value;
   const upperCase = document.getElementById("uppercaseLetters").value;

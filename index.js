@@ -152,7 +152,7 @@ const crypt = (salt, text) => {
     .join("");
 };
 
-// funkcja odszyfrująca
+// funkcja deszyfrująca
 // credit to @MetaTron on StackOverflow
 const decrypt = (salt, encoded) => {
   const textToChars = (text) => text.split("").map((c) => c.charCodeAt(0));

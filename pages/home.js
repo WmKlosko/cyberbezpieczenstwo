@@ -42,6 +42,7 @@ function checkPermission() {
   }
 }
 
+// Wyciąganie informacji o użytkowniku (czy hasło było zmienione)
 function getUserInformation() {
   if (userInfo.password_changed === false) {
     document.getElementById("password").style.visibility = "visible";
@@ -52,6 +53,7 @@ function getUserInformation() {
   }
 }
 
+// Zmiana hasła
 function changePassword() {
   const password = document.getElementById("change_password").value;
 
@@ -99,6 +101,7 @@ function changePassword() {
   };
 }
 
+// Wyciąganie wymagań hasła z BD
 function getPasswordRequirements() {
   let db;
   const request = indexedDB.open("Cybersecurity");
@@ -138,6 +141,7 @@ function getPasswordRequirements() {
   };
 }
 
+// Uwierzytelnianie wymogów hasła
 function validatePassword() {
   var valid = true;
   var password = document.getElementById("change_password").value;
@@ -201,6 +205,7 @@ const crypt = (salt, text) => {
     .join("");
 };
 
+// Tworzenie tokenu autoryzacji zapisywanego w localStorage
 function createToken(userData) {
   var token = crypt("wmk", JSON.stringify(userData));
   // Dodanie tokena do localStorage
