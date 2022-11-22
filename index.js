@@ -1,4 +1,10 @@
+var captchaQuestions = [];
+var currentQuestion = 0;
+var allQuestionsAnswered = false;
+document.getElementById("login").style.display = "none";
+
 createDataBase();
+getCaptchaQuestions();
 
 function login() {
   console.log("logowanie");
@@ -33,8 +39,7 @@ function validateUser(username, password) {
 
     request.onsuccess = (event) => {
       if (request.result !== undefined) {
-        
-        var decodedPassword = decrypt('wmk', request.result.password);
+        var decodedPassword = decrypt("wmk", request.result.password);
 
         if (decodedPassword === password) {
           console.log(request.result);
@@ -97,6 +102,14 @@ function createDataBase() {
     // Stworzenie tabeli dla wymogów hasła
     objectStorePassword.createIndex("id", "id", { unique: true });
 
+    // Stworzenie objectStore dla bazy danych (pytania captcha)
+    const objectStoreCaptcha = db.createObjectStore("captcha", {
+      keyPath: "id",
+    });
+
+    // Stworzenie tabeli dla pytań captcha
+    objectStoreCaptcha.createIndex("captcha", "captcha", { unique: true });
+
     var transaction = event.target.transaction;
 
     // Dodanie rekordów dla użytkowników
@@ -133,6 +146,35 @@ function createDataBase() {
         specialCharacter: 1,
       },
     });
+
+    // Dodanie pytań dla captcha
+    var captchaTransaction = transaction.objectStore("captcha");
+    captchaTransaction.add({
+      id: 1,
+      question: "Ile to dwa dodać dwa? Podaj cyfrę",
+      answer: "4",
+    });
+    captchaTransaction.add({
+      id: 2,
+      question: "Który rok będzie trzy lata po dwutysięcznym?",
+      answer: "2003",
+    });
+    captchaTransaction.add({
+      id: 3,
+      question: "Jaki kolor ma niebieska farba?",
+      answer: "niebieski",
+    });
+    captchaTransaction.add({
+      id: 4,
+      question: "Która cyfra jest po czwórce?",
+      answer: "5",
+    });
+    captchaTransaction.add({
+      id: 5,
+      question: "Podaj ostatnie słowo tego zdania",
+      answer: "zdania",
+    });
+
   };
 }
 
@@ -165,3 +207,77 @@ const decrypt = (salt, encoded) => {
     .map((charCode) => String.fromCharCode(charCode))
     .join("");
 };
+
+// Sprawdzanie odpowiedzi wprowadzonej przez użytkownika
+function captchaCheck(index) {
+  const answer = document.getElementById("answer").value;
+  var captcha = captchaQuestions[index];
+  var result = false;
+  if (answer) {
+    if (answer.trim().toLowerCase() === captcha.answer) {
+      result = true;
+    } else {
+      alert("Błędna odpowiedź");
+    }
+  }
+  if (result === true) {
+    document.getElementById("answer").value = "";
+    currentQuestion++;
+    if (currentQuestion > 2) {
+      allQuestionsAnswered = true;
+      document.getElementById("captcha").style.display = "none";
+      document.getElementById("login").style.display = "block";
+    } else {
+      document.getElementById("iteration").innerHTML = currentQuestion + 1;
+      var questionDiv = document.getElementById("question");
+      questionDiv.innerHTML = captchaQuestions[currentQuestion].question;
+    }
+  }
+}
+
+// odczytywanie pytań "captcha" z bazy danych
+function getCaptchaQuestions() {
+  let db;
+  const request = indexedDB.open("Cybersecurity");
+
+  request.onerror = (event) => {
+    alert("!!! Błąd bazy danych [captcha] !!!");
+  };
+
+  request.onsuccess = (event) => {
+    db = event.target.result;
+    // wymiana danych z BD
+    const transaction = db.transaction(["captcha"]);
+    // reprezentacja objectStore
+    const objectStore = transaction.objectStore("captcha");
+    // reprezentacja requestu
+    const request = objectStore.getAll();
+
+    request.onerror = (event) => {
+      alert("!! Nie można wyciągnąć pytań captcha !!");
+    };
+
+    request.onsuccess = (event) => {
+      if (request.result !== undefined && request.request !== null) {
+        var randomNumber = randomIntFromInterval(0, 4);
+        captchaQuestions.push(...request.result.splice(randomNumber, 1));
+
+        randomNumber = randomIntFromInterval(0, 3);
+        captchaQuestions.push(...request.result.splice(randomNumber, 1));
+
+        randomNumber = randomIntFromInterval(0, 2);
+        captchaQuestions.push(...request.result.splice(randomNumber, 1));
+
+        var questionDiv = document.getElementById("question");
+        questionDiv.innerHTML = captchaQuestions[0].question;
+
+        document.getElementById("iteration").innerHTML = currentQuestion + 1;
+      }
+    };
+  };
+
+  function randomIntFromInterval(min, max) {
+    // min and max included
+    return Math.floor(Math.random() * (max - min + 1) + min);
+  }
+}

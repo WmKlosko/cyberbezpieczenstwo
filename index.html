@@ -7,17 +7,15 @@
     <title>Cyberbezpieczeństwo</title>
     <link rel="stylesheet" href="./style.css" />
     <link rel="icon" href="./favicon.ico" type="image/x-icon" />
-
-    <!-- Latest compiled and minified CSS -->
     <link
       rel="stylesheet"
       href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
     />
-   
+
   </head>
   <body>
     <main>
-      <div class="login-container">
+      <div class="login-container" id="login">
         <h1>Logowanie</h1>
         <div class="login-form form-group">
           <form>
@@ -28,6 +26,19 @@
             <button class="login-button btn btn-primary" type="button" onclick="return login()">
               Zaloguj
             </button>
+          </form>
+        </div>
+      </div>
+      <div class="login-container" id="captcha">
+        <h1 class="login-captcha-header">Weryfikacja - czy jesteś człowiekim?</h1>
+        <div class="login-form form-group">
+          <form>
+            <div id="question"></div>
+            <input id="answer" class="form-control" />
+            <button class="login-button btn btn-primary" type="button" onclick="return captchaCheck(currentQuestion)">
+              Odpowiedz
+            </button>
+            <div class="login-iterator"><div id="iteration"></div>/<div>3</div></div>
           </form>
         </div>
       </div>

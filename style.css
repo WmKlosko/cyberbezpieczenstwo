@@ -47,3 +47,12 @@ label {
 .admin-list {
     text-align: start;
 }
+
+.login-iterator {
+    display: flex;
+    font-size: large;
+}
+
+.login-captcha-header {
+    font-size: xx-large;
+}
