@@ -1,10 +1,44 @@
 var captchaQuestions = [];
 var currentQuestion = 0;
 var allQuestionsAnswered = false;
+var uploadField = document.getElementById("file-upload");
+
 document.getElementById("login").style.display = "none";
 
 createDataBase();
 getCaptchaQuestions();
+
+// Sprawdza, czy plik ma odpowiedni rozmiar
+uploadField.onchange = function () {
+  if (this.files[0].size > 102400) {
+    alert("Plik jest za ciężki!");
+    this.value = "";
+  }
+};
+
+function szyfrujCezar() {
+  const inputValue = document.getElementById("CEZAR").value;
+  if (inputValue != "" && inputValue != null && inputValue != undefined) {
+    var outputValue = "";
+    var alphabets =['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'," ", "-", "", ".", "&","?", "!", "@", "#", "/"];
+    var alphabets13 = ['N','O','P','Q','R','S','T','U','V','W','X','Y','Z','A','B','C','D','E','F','G','H','I','J','K','L','M', " ", "-", "", ".", "&","?", "!", "@", "#", "/"];
+
+    var outputArray = [];
+    for(let i=0; i<inputValue.length; i++){
+        for(let j =0; j<alphabets.length; j++){
+            if(inputValue[i].toUpperCase() === alphabets[j]){
+            outputArray.push(alphabets13[j]);
+            }
+        }
+    }
+    outputValue = outputArray.join('');
+    document.getElementById("Wynik_szyfrowania").innerHTML = outputValue;
+  }
+  else
+  {
+    alert("Nie może być pusty")
+  }
+}
 
 function login() {
   console.log("logowanie");
@@ -174,7 +208,6 @@ function createDataBase() {
       question: "Podaj ostatnie słowo tego zdania",
       answer: "zdania",
     });
-
   };
 }
 

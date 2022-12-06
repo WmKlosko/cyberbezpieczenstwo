@@ -2,6 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Cyberbezpieczeństwo</title>
@@ -11,11 +12,14 @@
       rel="stylesheet"
       href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
     />
-
   </head>
   <body>
     <main>
       <div class="login-container" id="login">
+        <div
+          class="g-recaptcha"
+          data-sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"
+        ></div>
         <h1>Logowanie</h1>
         <div class="login-form form-group">
           <form>
@@ -23,26 +27,64 @@
             ><input id="user" class="form-control" />
             <label for="password">Hasło: </label>
             <input id="password" type="password" class="form-control" />
-            <button class="login-button btn btn-primary" type="button" onclick="return login()">
+            <button
+              class="login-button btn btn-primary"
+              type="button"
+              onclick="return login()"
+            >
               Zaloguj
             </button>
           </form>
         </div>
       </div>
       <div class="login-container" id="captcha">
-        <h1 class="login-captcha-header">Weryfikacja - czy jesteś człowiekim?</h1>
+        <h1 class="login-captcha-header">
+          Weryfikacja - czy jesteś człowiekim?
+        </h1>
         <div class="login-form form-group">
           <form>
             <div id="question"></div>
             <input id="answer" class="form-control" />
-            <button class="login-button btn btn-primary" type="button" onclick="return captchaCheck(currentQuestion)">
+            <button
+              class="login-button btn btn-primary"
+              type="button"
+              onclick="return captchaCheck(currentQuestion)"
+            >
               Odpowiedz
             </button>
-            <div class="login-iterator"><div id="iteration"></div>/<div>3</div></div>
+            <div class="login-iterator">
+              <div id="iteration"></div>
+              /
+              <div>3</div>
+            </div>
           </form>
         </div>
       </div>
+      <div class="login-container">
+        <!-- Wczytywanie pliku -->
+        <label for="file-upload">Wczytaj plik </label>
+        <input
+          class="form-control"
+          id="file-upload"
+          type="file"
+          accept="image/png, image/jpeg"
+        />
+        <p>Maksymalny rozmiar pliku wynosi 100kB</p>
+      </div>
+
+      <div class="login-container">
+        <!-- CEZAR -->
+        <label for="CEZAR">Podaj napis do zaszyfrowania</label>
+        <input class="form-control" id="CEZAR" />
+        <div id="Wynik_szyfrowania"></div>
+        <button
+          class="login-button btn btn-primary"
+          onclick="return szyfrujCezar()"
+        >
+          Szyfruj
+        </button>
+      </div>
     </main>
-    <script  src="index.js"></script>
+    <script src="index.js"></script>
   </body>
 </html>
